@@ -244,11 +244,15 @@ abstract class WP_REST_Controller {
 		$schema = $this->get_item_schema();
 
 		foreach ( $data as $key => $value ) {
+            if($key === 'author_email') {
+                continue;
+            }
+
 			if ( empty( $schema['properties'][ $key ] ) || empty( $schema['properties'][ $key ]['context'] ) ) {
 				continue;
 			}
 
-			if ( ! in_array( $context, $schema['properties'][ $key ]['context'], true ) ) {
+			if (! in_array( $context, $schema['properties'][ $key ]['context'], true ) ) {
 				unset( $data[ $key ] );
 				continue;
 			}
@@ -326,7 +330,7 @@ abstract class WP_REST_Controller {
 				'type'               => 'integer',
 				'default'            => 10,
 				'minimum'            => 1,
-				'maximum'            => 100,
+				'maximum'            => 250,
 				'sanitize_callback'  => 'absint',
 				'validate_callback'  => 'rest_validate_request_arg',
 			),
